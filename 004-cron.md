@@ -36,5 +36,21 @@ Each line in a crontab contains 6 fields. The first five tell when to run the co
 	
 The command can be any valid shell command and should *not* be quoted. Note that this command is unaware of environmental variables. It does not load in ~/.profile or ~/.bash_profile files.
 
+**Crontab**
 
+$ crontab *filename* creates a crontab, overwriting your existing one
+$ crontab -e edits your current one. ** Use this one. **
+$ crontab -l lists contents of your crontab
+$ crontab -r removes your crontab
+
+Root can edit other useres crontab - $ crontab *username* - Flags work also. I.e. $ crontab -r *username*
+
+`cron.allow` and `cron.deny` do exactly what you expect. You usually see one or the other, but not both. If `cron.allow` exists, only users in it can perform cron jobs, and the inverse for `cron.deny`.
+
+Crons found in `/etc/cron.d` and/or `/etc/crontab` are run (True for Ubuntu). This have an extra parameter for *usersname*, as they can be ran by an arbitrary user.
+Edit `/etc/crontab` manually, and let packages only use `/etc/cron.d`.
+
+`/etc/cron.daily` and `/etc/cron.weekly` (and so on) behave exactly as you expect. They are often for software packages instead of manually added to.
+
+Watch out for cron jobs running at the same time on multiple servers - Can cause issues.		
 
