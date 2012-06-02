@@ -80,7 +80,53 @@ Kill can kill a process, or send any signal. It defaults to TERM signal. This me
 * Zombie - Trying to die
 * Stopped - Suspended (Not allowed to execute)
 
+`Runnable:` Ready and waiting to execute when allocated CPU time.
+`Sleeping:` Waiting for a specific event to occur, such as waiting for terminal input. No CPU time given until receives signal or response.
+`Zombies:` Finished with execution but have not yet had their status collected
+`Stopped:` Forbidden to run. An external script or process must use it (Terminal command or another shells script, for instance). A process cannot make itself run when stopped.
 
+
+## Nice and Renice: Influence scheduling priority
+Niceness refers to a numerical priority of a process. They range on a scale of 40 (-20 through 19 or 0 through 29). A higher priority process (lower number) gets more prefernce when vying for CPU time.
+
+New processes receive the same value as their parent process. Owners of a process can lower priority but not increase it (by lowering the nice value). Superusers can set nice value to whatever they want.
+
+A process's nice value can be set with the `nice` command when created, and changed later with the `renice` command.
+
+	$ nice -n 8 ~/bin/some_process # Increase nice to lower priority
+	$ sudo renice 5 7637 # Set nice by PID
+	$ sudo renice 5 -u some_user # Set nice to user's procsses
+	
+**Remember:** 
+
+asdfasf
+
+* Specify the full path to nice, otherwise you might get the shell's version.
+* Not all `nice`/`renice` commands are the same. Use `man nice` and `man renice` to check syntax.
+* Linux: 
+  * Range: 20 through 19
+  * OS: Increment `nice` value, doesn't set explicitly!
+  * OS: Set priority explicitly for `renice` (?)
+
+## PS: Monitor Processes
+
+`ps` will list processes and information about them. Zombies appear as <exiting> or <defunct>
+
+`ps aux` is the most handy - Shows `a`ll processes in a `u`ser friendly manner, even processes that don't have a control terminal (`x`).
+
+**Nots**
+
+* Processes in brackets are kernel threads scheduled as processes
+* `ps lax` is useful and faster
+
+## Dynamic monitoring with TOP, PRSTAT and TOPAS
+`top` will show process informtion but update it regularly so you can see what processes are taking up the most memory over time.
+
+`top`: Linux, others are for other OSes (AIX, Solaris)
+
+	$ sudo top -q # Set top to highest priority, incase server is bogged down
+
+The */proc* directory contains information generated on the fly by the kernel. You can view items here directly for more obscure information on processes. They are organized by PID - /proc/1 for instance shows info on `init`.
 
 	
 
