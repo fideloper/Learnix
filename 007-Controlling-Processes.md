@@ -129,6 +129,21 @@ asdfasf
 The */proc* directory contains information generated on the fly by the kernel. You can view items here directly for more obscure information on processes. They are organized by PID - /proc/1 for instance shows info on `init`.
 
 	
+## Trace processes
+There are commands to let you observer all the actions and signals a process does and receives.
 
+	$ sudo strace -p 4657 # Trace pid 5657, which might be 'top'. Reads from /proc
+	
+`strace` goodies:
 
+* -f followed forked processes (Use with httpd as it spawn many child processes)
+* -e file options show file operations only
 
+## Runaway processes
+If you find processes you want to check into, get information about them before deciding to kill them.
+
+Use `ps` or `top` go see system resource usage. Use `uptime` to show load averages.
+
+When in `top`, hit the `f` key and select DATA. DATA indicates the amount of memory in each processes's data and stack.
+
+For file system issues, use `dk -k` shows filesystem use. Use `du` to find the largest folders and keep narrowing down until the offenders are found.
